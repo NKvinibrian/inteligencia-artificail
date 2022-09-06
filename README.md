@@ -1,2 +1,2 @@
-# inteligencia-artificail
+# inteligencia-artificial
 Vinicius Maestrelli Wiggers 
