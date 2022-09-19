@@ -1,0 +1,143 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMp8lQJkyBVrkHHHUNSzHUp",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/NKvinibrian/inteligencia-artificail/blob/main/ed-04/trabalho\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Trabalho ED-4 Vinicius Maestrelli Wiggers"
+      ],
+      "metadata": {
+        "id": "FghDcCCu6H1i"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Não funcionando, falta finalizar\n",
+        "\n",
+        "from __future__ import annotations\n",
+        "\n",
+        "from dataclasses import dataclass\n",
+        "from typing import List, Callable, ClassVar\n",
+        "\n",
+        "\n",
+        "@dataclass\n",
+        "class Pessoas:\n",
+        "    custo: int\n",
+        "    tipo: str\n",
+        "\n",
+        "\n",
+        "@dataclass\n",
+        "class Estado:\n",
+        "    nodo: List\n",
+        "    pai: Estado\n",
+        "    custo: int\n",
+        "\n",
+        "\n",
+        "@dataclass\n",
+        "class Problema:\n",
+        "    estado_inicial: List\n",
+        "    acoes: List[str]\n",
+        "    custo_max: int\n",
+        "    funcao_sucessora: Callable[[List], List]\n",
+        "    funcao_objetivo: Callable[[ClassVar, ClassVar], bool]\n",
+        "\n",
+        "    def solucao(self):\n",
+        "        pass\n",
+        "\n",
+        "\n",
+        "def busca(problema: Problema) -> List:\n",
+        "    fronteira = [problema.estado_inicial]\n",
+        "\n",
+        "    while True:\n",
+        "        if not fronteira:\n",
+        "            raise RuntimeError('Não há solução')\n",
+        "\n",
+        "        estado = fronteira.pop(0)\n",
+        "        if problema.funcao_objetivo(estado, problema):\n",
+        "            return estado\n",
+        "\n",
+        "def funcao_sucessora(estado: List) -> List:\n",
+        "    pass\n",
+        "\n",
+        "\n",
+        "def expansao(estado: Estado) -> List:\n",
+        "    vizinhanca = []\n",
+        "\n",
+        "    def copia():\n",
+        "        return A.copy, B.copy\n",
+        "\n",
+        "    A = estado.nodo[0]\n",
+        "    B = estado.nodo[1]\n",
+        "\n",
+        "    # A -> B\n",
+        "    if A:\n",
+        "        for i in range(len(A)):\n",
+        "            for j in range(len(B)):\n",
+        "                if A[i].tipo == B[j].tipo:\n",
+        "                    A_copy, B_copy = copia()\n",
+        "                    B_copy.append(A_copy.pop(i))\n",
+        "                    vizinhanca.append(Estado(nodo=[A_copy, B_copy], pai=estado, custo=(estado.custo + B_copy[-1].custo)))\n",
+        "\n",
+        "    # B -> A\n",
+        "    if B:\n",
+        "        for i in range(len(B)):\n",
+        "            for j in range(len(A)):\n",
+        "                if B[i].tipo == A[j].tipo:\n",
+        "                    A_copy, B_copy = copia()\n",
+        "                    A_copy.append(B_copy.pop(i))\n",
+        "                    vizinhanca.append(Estado(nodo=[A_copy, B_copy], pai=estado, custo=(estado.custo + A_copy[-1].custo)))\n",
+        "\n",
+        "    return vizinhanca\n",
+        "\n",
+        "def funcao_objetivo(estado: Estado, problema: Problema) -> bool:\n",
+        "    return estado.nodo == [[], [Pessoas(1, 'A'), Pessoas(2, 'B'), Pessoas(5, 'C'), Pessoas(8, 'D')]] and estado.custo <= problema.custo_max\n",
+        "\n",
+        "\n",
+        "def main():\n",
+        "    problema = Problema(\n",
+        "        estado_inicial=[[Pessoas(1, 'A'), Pessoas(2, 'B'), Pessoas(5, 'C'), Pessoas(8, 'D')], []],\n",
+        "        acoes=['AB', 'AC', 'AD', 'BC', 'BD', 'CD', 'BA', 'CA', 'DA', 'CB', 'DB', 'DC'],\n",
+        "        funcao_sucessora=funcao_sucessora,\n",
+        "        funcao_objetivo=funcao_objetivo,\n",
+        "        custo_max=15\n",
+        "    )\n",
+        "    solucao = busca(problema)\n",
+        "\n",
+        "\n",
+        "if __name__ == '__main__':\n",
+        "    main()\n"
+      ],
+      "metadata": {
+        "id": "LhQ8Wd-36LrG"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
